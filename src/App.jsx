@@ -13,6 +13,12 @@ import Weapons from './components/Weapons'
 import ExamineWeapons from './components/ExamineWeapons'
 import Maps from './components/Maps'
 import { useEffect } from 'react'
+import PlayingCards from './components/PlayingCards'
+import ExaminePlayingcard from './components/ExaminePlayingcard'
+import Sprays from './components/Sprays'
+import ExamineSpray from './components/ExamineSpray'
+import Bundles from './components/Bundles'
+import ExamineBundle from './components/ExamineBundle'
 
 function App() {
 
@@ -36,6 +42,12 @@ function App() {
         <Route path="/agents/:uuid" element={<ExamineAgent />} />
         <Route path="/weapons" element={<Weapons />} />
         <Route path="/weapons/:uuid" element={<ExamineWeapons />} />
+        <Route path="/playingcards" element={<PlayingCards />} />
+        <Route path="/playingcards/:uuid" element={<ExaminePlayingcard />} />
+        <Route path="/sprays" element={<Sprays />} />
+        <Route path="/sprays/:uuid" element={<ExamineSpray />} />
+        <Route path="/bundles" element={<Bundles />} />
+        <Route path="/bundles/:uuid" element={<ExamineBundle />} />
         <Route path="/maps" element={<Maps />} />
         <Route path="*" element={<NoPage />} />
       </Routes>

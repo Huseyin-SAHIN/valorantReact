@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -7,36 +6,36 @@ import Loading from './Loading';
 import { useGlobalContext } from '../Context/GlobalContext';
 import FilteredComponent from './FilteredComponent';
 
-function Agents() {
-    const [agents, setAgents] = useState([]);
+function sprays() {
+    const [sprays, setSprays] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
-    const [filteredAgents, setFilteredAgents] = useState([]);
+    const [filteredSprays, setfilteredSprays] = useState([]);
     const { themeMode } = useGlobalContext();
 
     useEffect(() => {
-        const dataStorage = JSON.parse(localStorage.getItem('agents'))
+        const dataStorage = JSON.parse(localStorage.getItem('sprays'))
         if (dataStorage && ((new Date() - new Date(dataStorage.timestamp)) / 1000) < 60) {
-            setAgents(dataStorage.agents);
-            setFilteredAgents(dataStorage.agents)
+            setSprays(dataStorage.sprays);
+            setfilteredSprays(dataStorage.sprays)
             setIsLoading(false);
         } else {
-            fetchAgents();
+            fetchSprays();
         }
     }, []);
 
-    const fetchAgents = async () => {
+    const fetchSprays = async () => {
         try {
-            const response = await axios.get('https://valorant-api.com/v1/agents?language=tr-TR&isPlayableCharacter=true');
-            setAgents(response.data.data);
-            setFilteredAgents(response.data.data);
+            const response = await axios.get('https://valorant-api.com/v1/sprays?language=tr-TR&isPlayableCharacter=true');
+            setSprays(response.data.data);
+            setfilteredSprays(response.data.data);
             setIsLoading(false);
             const dataStorage = {
-                agents: response.data.data,
+                sprays: response.data.data,
                 timestamp: new Date()
             }
 
-            localStorage.setItem('agents', JSON.stringify(dataStorage));
+            localStorage.setItem('sprays', JSON.stringify(dataStorage));
 
         } catch (error) {
             setIsLoading(false);
@@ -46,14 +45,14 @@ function Agents() {
 
     const handleSearch = (query) => {
         setSearchQuery(query);
-        const filtered = agents.filter(agent =>
-            agent.displayName.toLowerCase().includes(query.toLowerCase())
+        const filtered = sprays.filter(spray =>
+            spray.displayName.toLowerCase().includes(query.toLowerCase())
         );
-        setFilteredAgents(filtered);
+        setfilteredSprays(filtered);
     };
 
     return (
-        <div id="agents" style={{
+        <div id="sprays" style={{
             background: themeMode.background
         }}>
             <div className='container'>
@@ -61,7 +60,7 @@ function Agents() {
                     <input
                         className='search col-6 mt-4 m-auto'
                         type="text"
-                        placeholder='Ajan Arama'
+                        placeholder='Sprey Arama'
                         value={searchQuery}
                         onChange={event => handleSearch(event.target.value)}
                     />
@@ -70,11 +69,11 @@ function Agents() {
                     {isLoading ? (
                         <Loading />
                     ) : (
-                        filteredAgents.length !== 0 ? (
-                            filteredAgents.map((agent, index) => (
+                        filteredSprays.length !== 0 ? (
+                            filteredSprays.map((spray, index) => (
 
                                 <Link
-                                    to={'/agents/' + agent.uuid}
+                                    to={'/sprays/' + spray.uuid}
                                     key={index}
                                     className='col-sm-12 col-md-6 col-lg-4 col-xl-3 mt-3 mb-3 sh '
                                 >
@@ -82,11 +81,9 @@ function Agents() {
                                         background: themeMode.color,
                                         color: themeMode.background
                                     }}>
-                                        <Card.Img variant="top" src={agent.displayIcon} />
+                                        <Card.Img variant="top" src={spray.fullTransparentIcon} />
                                         <Card.Body>
-                                            <Card.Title>{agent.displayName}</Card.Title>
-                                            <Card.Text>{agent.description}</Card.Text>
-                                            <Button variant="primary">İncele</Button>
+                                            <Card.Title>{spray.displayName}</Card.Title>
                                         </Card.Body>
                                     </Card>
                                 </Link>
@@ -97,8 +94,9 @@ function Agents() {
                     )}
                 </div>
             </div>
+            
         </div>
     );
 }
 
-export default Agents;
+export default sprays;

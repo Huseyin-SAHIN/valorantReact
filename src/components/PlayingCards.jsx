@@ -7,36 +7,37 @@ import Loading from './Loading';
 import { useGlobalContext } from '../Context/GlobalContext';
 import FilteredComponent from './FilteredComponent';
 
-function Agents() {
-    const [agents, setAgents] = useState([]);
+function playingCards() {
+    const [playingCards, setPlayingCards] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
-    const [filteredAgents, setFilteredAgents] = useState([]);
+    const [filteredCards, setFilteredCards] = useState([]);
     const { themeMode } = useGlobalContext();
 
     useEffect(() => {
-        const dataStorage = JSON.parse(localStorage.getItem('agents'))
+        const dataStorage = JSON.parse(localStorage.getItem('playingCards'))
         if (dataStorage && ((new Date() - new Date(dataStorage.timestamp)) / 1000) < 60) {
-            setAgents(dataStorage.agents);
-            setFilteredAgents(dataStorage.agents)
+            setPlayingCards(dataStorage.playingCards);
+            setFilteredCards(dataStorage.playingCards)
             setIsLoading(false);
         } else {
-            fetchAgents();
+            fetchPlayingCards();
         }
     }, []);
 
-    const fetchAgents = async () => {
+    const fetchPlayingCards = async () => {
         try {
-            const response = await axios.get('https://valorant-api.com/v1/agents?language=tr-TR&isPlayableCharacter=true');
-            setAgents(response.data.data);
-            setFilteredAgents(response.data.data);
+            const response = await axios.get('https://valorant-api.com/v1/playercards?language=tr-TR&isPlayableCharacter=true');
+
+            setPlayingCards(response.data.data);
+            setFilteredCards(response.data.data);
             setIsLoading(false);
             const dataStorage = {
-                agents: response.data.data,
+                playingCards: response.data.data,
                 timestamp: new Date()
             }
 
-            localStorage.setItem('agents', JSON.stringify(dataStorage));
+            localStorage.setItem('playingCards', JSON.stringify(dataStorage));
 
         } catch (error) {
             setIsLoading(false);
@@ -46,14 +47,14 @@ function Agents() {
 
     const handleSearch = (query) => {
         setSearchQuery(query);
-        const filtered = agents.filter(agent =>
-            agent.displayName.toLowerCase().includes(query.toLowerCase())
+        const filtered = playingCards.filter(card =>
+            card.displayName.toLowerCase().includes(query.toLowerCase())
         );
-        setFilteredAgents(filtered);
+        setFilteredCards(filtered);
     };
 
     return (
-        <div id="agents" style={{
+        <div id="playingCards" style={{
             background: themeMode.background
         }}>
             <div className='container'>
@@ -61,7 +62,7 @@ function Agents() {
                     <input
                         className='search col-6 mt-4 m-auto'
                         type="text"
-                        placeholder='Ajan Arama'
+                        placeholder='Oyun Kartı Arama'
                         value={searchQuery}
                         onChange={event => handleSearch(event.target.value)}
                     />
@@ -70,11 +71,11 @@ function Agents() {
                     {isLoading ? (
                         <Loading />
                     ) : (
-                        filteredAgents.length !== 0 ? (
-                            filteredAgents.map((agent, index) => (
+                        filteredCards.length !== 0 ? (
+                            filteredCards.map((card, index) => (
 
                                 <Link
-                                    to={'/agents/' + agent.uuid}
+                                    to={'/playingcards/' + card.uuid}
                                     key={index}
                                     className='col-sm-12 col-md-6 col-lg-4 col-xl-3 mt-3 mb-3 sh '
                                 >
@@ -82,10 +83,9 @@ function Agents() {
                                         background: themeMode.color,
                                         color: themeMode.background
                                     }}>
-                                        <Card.Img variant="top" src={agent.displayIcon} />
+                                        <Card.Img variant="top" src={card.displayIcon} />
                                         <Card.Body>
-                                            <Card.Title>{agent.displayName}</Card.Title>
-                                            <Card.Text>{agent.description}</Card.Text>
+                                            <Card.Title>{card.displayName}</Card.Title>
                                             <Button variant="primary">İncele</Button>
                                         </Card.Body>
                                     </Card>
@@ -101,4 +101,4 @@ function Agents() {
     );
 }
 
-export default Agents;
+export default playingCards;

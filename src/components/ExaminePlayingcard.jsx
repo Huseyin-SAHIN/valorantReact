@@ -8,21 +8,22 @@ import { useGlobalContext } from '../Context/GlobalContext';
 
 
 
-function ExamineWeapon() {
+function ExaminePlayingcards() {
+
     const { uuid } = useParams();
-    const [weaponsResponse, setWeaponsResponse] = useState(null)
+    const [playingCards, setPlayingCards] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
     const { themeMode } = useGlobalContext();
 
 
     useEffect(() => {
-        fetchSelectedWeapon()
+        fetchSelectedPlayingCard()
     }, [])
 
-    const fetchSelectedWeapon = async () => {
+    const fetchSelectedPlayingCard = async () => {
         try {
-            const response = await axios.get(`https://valorant-api.com/v1/weapons/skinchromas/${uuid}?language=tr-TR`)
-            setWeaponsResponse(response.data.data);
+            const response = await axios.get(`https://valorant-api.com/v1/playercards/${uuid}?language=tr-TR`)
+            setPlayingCards(response.data.data);
             setIsLoading(false)
         }
         catch (error) {
@@ -32,7 +33,7 @@ function ExamineWeapon() {
     }
 
     return (
-        <div id='examineWeapon'
+        <div id='ExaminePlayingcards'
             style={{
                 minHeight: "90vh",
                 background: themeMode.background,
@@ -40,18 +41,19 @@ function ExamineWeapon() {
                 justifyContent: "center",
             }}
         >
-            <div className="container" style={{ width: "100%", margin: "auto" }}>
+            <div className="container" style={{ margin: "auto" }}>
                 {isLoading ? <Loading /> : (
                     <Card className='' style={{
                         background: "transparent",
-                        width: "100%",
                         border: "none",
                         padding: "2rem"
                     }}>
                         <Card.Title className='mb-5 text-xl' style={{
                             color: themeMode.color,
-                        }}>{weaponsResponse.displayName}</Card.Title>
-                        <Card.Img src={weaponsResponse.fullRender} alt={weaponsResponse.displayName} />
+                        }}>
+                            {playingCards.displayName}
+                        </Card.Title>
+                        <Card.Img style={{ height: "80vh", objectFit: "contain" }} src={playingCards.largeArt} alt={playingCards.displayName} />
                     </Card>
                 )}
             </div>
@@ -59,4 +61,4 @@ function ExamineWeapon() {
     )
 }
 
-export default ExamineWeapon;
+export default ExaminePlayingcards

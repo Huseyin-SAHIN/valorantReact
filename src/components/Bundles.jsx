@@ -7,36 +7,36 @@ import Loading from './Loading';
 import { useGlobalContext } from '../Context/GlobalContext';
 import FilteredComponent from './FilteredComponent';
 
-function Agents() {
-    const [agents, setAgents] = useState([]);
+function Bundles() {
+    const [bundles, setBundles] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
-    const [filteredAgents, setFilteredAgents] = useState([]);
+    const [filteredBundles, setfilteredBundles] = useState([]);
     const { themeMode } = useGlobalContext();
 
     useEffect(() => {
-        const dataStorage = JSON.parse(localStorage.getItem('agents'))
+        const dataStorage = JSON.parse(localStorage.getItem('bundles'))
         if (dataStorage && ((new Date() - new Date(dataStorage.timestamp)) / 1000) < 60) {
-            setAgents(dataStorage.agents);
-            setFilteredAgents(dataStorage.agents)
+            setBundles(dataStorage.bundles);
+            setfilteredBundles(dataStorage.bundles)
             setIsLoading(false);
         } else {
-            fetchAgents();
+            fetchBundles();
         }
     }, []);
 
-    const fetchAgents = async () => {
+    const fetchBundles = async () => {
         try {
-            const response = await axios.get('https://valorant-api.com/v1/agents?language=tr-TR&isPlayableCharacter=true');
-            setAgents(response.data.data);
-            setFilteredAgents(response.data.data);
+            const response = await axios.get('https://valorant-api.com/v1/bundles?language=tr-TR&isPlayableCharacter=true');
+            setBundles(response.data.data);
+            setfilteredBundles(response.data.data);
             setIsLoading(false);
             const dataStorage = {
-                agents: response.data.data,
+                bundles: response.data.data,
                 timestamp: new Date()
             }
 
-            localStorage.setItem('agents', JSON.stringify(dataStorage));
+            localStorage.setItem('bundles', JSON.stringify(dataStorage));
 
         } catch (error) {
             setIsLoading(false);
@@ -46,14 +46,14 @@ function Agents() {
 
     const handleSearch = (query) => {
         setSearchQuery(query);
-        const filtered = agents.filter(agent =>
-            agent.displayName.toLowerCase().includes(query.toLowerCase())
+        const filtered = bundles.filter(bundle =>
+            bundle.displayName.toLowerCase().includes(query.toLowerCase())
         );
-        setFilteredAgents(filtered);
+        setfilteredBundles(filtered);
     };
 
     return (
-        <div id="agents" style={{
+        <div id="bundles" style={{
             background: themeMode.background
         }}>
             <div className='container'>
@@ -61,7 +61,7 @@ function Agents() {
                     <input
                         className='search col-6 mt-4 m-auto'
                         type="text"
-                        placeholder='Ajan Arama'
+                        placeholder='Paket Arama'
                         value={searchQuery}
                         onChange={event => handleSearch(event.target.value)}
                     />
@@ -70,11 +70,11 @@ function Agents() {
                     {isLoading ? (
                         <Loading />
                     ) : (
-                        filteredAgents.length !== 0 ? (
-                            filteredAgents.map((agent, index) => (
+                        filteredBundles.length !== 0 ? (
+                            filteredBundles.map((bundle, index) => (
 
                                 <Link
-                                    to={'/agents/' + agent.uuid}
+                                    to={'/bundles/' + bundle.uuid}
                                     key={index}
                                     className='col-sm-12 col-md-6 col-lg-4 col-xl-3 mt-3 mb-3 sh '
                                 >
@@ -82,11 +82,9 @@ function Agents() {
                                         background: themeMode.color,
                                         color: themeMode.background
                                     }}>
-                                        <Card.Img variant="top" src={agent.displayIcon} />
+                                        <Card.Img variant="top" src={bundle.verticalPromoImage} />
                                         <Card.Body>
-                                            <Card.Title>{agent.displayName}</Card.Title>
-                                            <Card.Text>{agent.description}</Card.Text>
-                                            <Button variant="primary">İncele</Button>
+                                            <Card.Title>{bundle.displayName}</Card.Title>
                                         </Card.Body>
                                     </Card>
                                 </Link>
@@ -101,4 +99,4 @@ function Agents() {
     );
 }
 
-export default Agents;
+export default Bundles;

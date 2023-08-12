@@ -8,18 +8,21 @@ const ContextProvider = ({ children }) => {
 
 
     const darkMode = {
-        id: 'dark',
+        id: 'darkMode',
         background: '#333',
         color: '#fff'
     }
 
     const lightMode = {
-        id: 'light',
+        id: 'lightMode',
         background: '#fff',
         color: '#333'
     }
 
-    const [themeMode, setThemeMode] = useState(darkMode)
+    const themeControl = localStorage.getItem('theme') === 'darkMode' ? darkMode : lightMode
+
+
+    const [themeMode, setThemeMode] = useState(themeControl)
 
     const data = {
         darkMode,

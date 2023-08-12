@@ -8,21 +8,22 @@ import { useGlobalContext } from '../Context/GlobalContext';
 
 
 
-function ExamineWeapon() {
+function ExamineBundle() {
+
     const { uuid } = useParams();
-    const [weaponsResponse, setWeaponsResponse] = useState(null)
+    const [bundles, setBundles] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
     const { themeMode } = useGlobalContext();
 
 
     useEffect(() => {
-        fetchSelectedWeapon()
+        fetchSelectedBundle()
     }, [])
 
-    const fetchSelectedWeapon = async () => {
+    const fetchSelectedBundle = async () => {
         try {
-            const response = await axios.get(`https://valorant-api.com/v1/weapons/skinchromas/${uuid}?language=tr-TR`)
-            setWeaponsResponse(response.data.data);
+            const response = await axios.get(`https://valorant-api.com/v1/bundles/${uuid}?language=tr-TR`)
+            setBundles(response.data.data);
             setIsLoading(false)
         }
         catch (error) {
@@ -32,7 +33,7 @@ function ExamineWeapon() {
     }
 
     return (
-        <div id='examineWeapon'
+        <div id='examineBundle'
             style={{
                 minHeight: "90vh",
                 background: themeMode.background,
@@ -50,8 +51,8 @@ function ExamineWeapon() {
                     }}>
                         <Card.Title className='mb-5 text-xl' style={{
                             color: themeMode.color,
-                        }}>{weaponsResponse.displayName}</Card.Title>
-                        <Card.Img src={weaponsResponse.fullRender} alt={weaponsResponse.displayName} />
+                        }}>{bundles.displayName}</Card.Title>
+                        <Card.Img src={bundles.displayIcon} alt={bundles.displayName} />
                     </Card>
                 )}
             </div>
@@ -59,4 +60,4 @@ function ExamineWeapon() {
     )
 }
 
-export default ExamineWeapon;
+export default ExamineBundle;

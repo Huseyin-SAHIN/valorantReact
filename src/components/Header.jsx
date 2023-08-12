@@ -8,8 +8,11 @@ import { CgDarkMode } from 'react-icons/cg';
 function Header() {
 
     const { themeMode, setThemeMode, lightMode, darkMode } = useGlobalContext()
+
     const handleClick = () => {
-        setThemeMode(themeMode.id === "light" ? darkMode : lightMode)
+        localStorage.setItem("theme", themeMode.id === darkMode.id ? lightMode.id : darkMode.id)
+        setThemeMode(localStorage.getItem("theme") === darkMode.id ? darkMode : lightMode)
+
     }
 
     return (
@@ -22,11 +25,14 @@ function Header() {
                         <Nav className="me-auto">
                             <NavLink className='btn text-light' to='/agents'>Ajanlar</NavLink>
                             <NavLink className='btn text-light' to='/weapons'>Silahlar</NavLink>
+                            <NavLink className='btn text-light' to='/playingcards'>Oyun Kartları</NavLink>
+                            <NavLink className='btn text-light' to='/sprays'>Spreyler</NavLink>
+                            <NavLink className='btn text-light' to='/bundles'>Paketler</NavLink>
                             <NavLink className='btn text-light' to='/maps'>Haritalar</NavLink>
                         </Nav>
-                    <button className='btn btn-dark' onClick={handleClick}>
-                        <CgDarkMode />
-                    </button>
+                        <button className='btn btn-dark' onClick={handleClick}>
+                            <CgDarkMode />
+                        </button>
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
