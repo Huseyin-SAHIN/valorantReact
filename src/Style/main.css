@@ -1,0 +1,94 @@
+#header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+}
+
+#examineAgent .card .cardTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+#agents,
+#weapons,
+#maps {
+  background: #333;
+  color: #fff;
+}
+#agents .container,
+#weapons .container,
+#maps .container {
+  min-height: 100vh;
+}
+#agents .container .row a,
+#weapons .container .row a,
+#maps .container .row a {
+  text-decoration: none;
+}
+#agents .container .row .card,
+#weapons .container .row .card,
+#maps .container .row .card {
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
+}
+#agents .container .row .card .card-img-top,
+#weapons .container .row .card .card-img-top,
+#maps .container .row .card .card-img-top {
+  height: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+#agents .container .row .card .card-body .card-text,
+#weapons .container .row .card .card-body .card-text,
+#maps .container .row .card .card-body .card-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#agents #footer,
+#weapons #footer,
+#maps #footer {
+  background: crimson;
+  height: 100px;
+}
+
+#maps .container .row .card:hover .card-img-top {
+  display: none;
+}
+#maps .container .row .card:hover .splash {
+  display: block;
+}
+#maps .container .row .card .splash {
+  display: none;
+}
+#maps #footer {
+  background: crimson;
+  height: 100px;
+}
+
+#examineAgent .card .card-title {
+  font-weight: bold;
+}
+
+.search {
+  background: #000;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 16px;
+  color: #fff;
+  border-radius: 50px;
+}
+.search::-moz-placeholder {
+  color: #ddd;
+}
+.search::placeholder {
+  color: #ddd;
+}
+.search:focus {
+  outline: none;
+  background-color: #222;
+}/*# sourceMappingURL=main.css.map */
