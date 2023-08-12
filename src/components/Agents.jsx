@@ -4,15 +4,24 @@ import Card from 'react-bootstrap/Card';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Loading from './Loading';
+import { useGlobalContext } from '../Context/GlobalContext';
 
 function Agents() {
     const [agents, setAgents] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
     const [filteredAgents, setFilteredAgents] = useState([]);
+    const { themeMode } = useGlobalContext();
 
     useEffect(() => {
-        fetchAgents();
+        const dataStorage = JSON.parse(localStorage.getItem('agents'))
+        if (dataStorage && ((new Date() - new Date(dataStorage.timestamp)) / 1000) < 60) {
+            setAgents(dataStorage.agents);
+            setFilteredAgents(dataStorage.agents)
+            setIsLoading(false);
+        } else {
+            fetchAgents();
+        }
     }, []);
 
     const fetchAgents = async () => {
@@ -21,6 +30,13 @@ function Agents() {
             setAgents(response.data.data);
             setFilteredAgents(response.data.data);
             setIsLoading(false);
+            const dataStorage = {
+                agents: response.data.data,
+                timestamp: new Date()
+            }
+
+            localStorage.setItem('agents', JSON.stringify(dataStorage));
+
         } catch (error) {
             setIsLoading(false);
             console.log(error);
@@ -36,7 +52,9 @@ function Agents() {
     };
 
     return (
-        <div id="agents">
+        <div id="agents" style={{
+            background: themeMode.background
+        }}>
             <div className='container'>
                 <div className='row' >
                     <input
@@ -59,7 +77,10 @@ function Agents() {
                                     key={index}
                                     className='col-sm-12 col-md-6 col-lg-4 col-xl-3 mt-3 mb-3 sh '
                                 >
-                                    <Card>
+                                    <Card style={{
+                                        background: themeMode.color,
+                                        color: themeMode.background
+                                    }}>
                                         <Card.Img variant="top" src={agent.displayIcon} />
                                         <Card.Body>
                                             <Card.Title>{agent.displayName}</Card.Title>

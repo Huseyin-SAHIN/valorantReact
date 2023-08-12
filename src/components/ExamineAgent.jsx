@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useGlobalContext } from '../Context/GlobalContext';
 import { useParams } from 'react-router-dom';
 import '../Style/main.css'
 import { Card } from 'react-bootstrap';
@@ -13,6 +14,8 @@ function ExamineAgent() {
     const [agentResponse, setAgentResponse] = useState(null)
     const [scrollHeight, setScrollHeight] = useState(0);
     const [isLoading, setIsLoading] = useState(true)
+
+    const { themeMode } = useGlobalContext();
 
     useEffect(() => {
         fetchSelectedAgent()
@@ -36,7 +39,6 @@ function ExamineAgent() {
             const response = await axios.get(`https://valorant-api.com/v1/agents/${uuid}?language=tr-TR`)
             setAgentResponse(response.data.data);
             setIsLoading(false)
-            console.log(response.data.data);
         }
         catch (error) {
             setIsLoading(false)
@@ -46,26 +48,24 @@ function ExamineAgent() {
 
     return (
         <div id='examineAgent' style={{
-            background: "#333"
+            background: themeMode.background,
         }}>
             {isLoading ? <Loading /> : (
                 <>
-                    <div className="cardImg" style={{
-                        background: `url(${agentResponse.background})`,
-                        backgroundSize: 'contain',
-                        backgroundRepeat: 'no-repeat',
-                        backgroundPosition: 'center',
-                        position: 'relative',
-                    }}>
-                        <img style={{
-                            paddingTop: "2rem",
-                            width: `calc(100% - ${scrollHeight}%)`,
-                            minWidth: '60%',
-                        }}
-                            src={agentResponse.bustPortrait} className='img-fluid' />
+                    <div style={{ background: "#333" }}>
+                        <div className="cardImg" style={{
+                            background: `url(${agentResponse.background})`,
+                        }} >
+                            <img style={{
+                                paddingTop: "2rem",
+                                width: `calc(100% - ${scrollHeight}%)`,
+                                minWidth: '60%',
+                            }}
+                                src={agentResponse.bustPortrait} className='img-fluid' />
+                        </div>
                     </div>
-                    <div className="container" style={{
-                        color: "#fff"
+                    <div className="container mt-5" style={{
+                        color: themeMode.color,
                     }}>
                         <div className='cardTitle'>
                             <h3 className='h1'>{agentResponse.displayName}</h3>
@@ -76,7 +76,7 @@ function ExamineAgent() {
                                 <Card className="custom-card mt-5 shadow"
                                     style={{
                                         background: "#222",
-                                        color: "#fff",
+                                        color: themeMode.color,
                                         padding: "1rem 0",
                                     }}
                                 >
@@ -87,11 +87,11 @@ function ExamineAgent() {
                                                     width: "100%",
                                                 }} />
                                             </div>
-                                            <div className="text-container col-sm-12 col-md-8 col-lg-10 mt-3 mb-3">
+                                            <div className="text-container text-white col-sm-12 col-md-8 col-lg-10 mt-3 mb-3">
                                                 <Card.Title>{agentResponse.role.displayName}</Card.Title>
                                                 <Card.Text>{agentResponse.role.description}</Card.Text>
                                                 {agentResponse.characterTags && (
-                                                    <div className='text-white'>
+                                                    <div>
                                                         <u>Özellikler</u>
                                                         {agentResponse.characterTags.map((tag, index) => (
                                                             <div key={index}>{tag}</div>
@@ -110,14 +110,14 @@ function ExamineAgent() {
                             {agentResponse.abilities.map((ability, index) => (
                                 <Card className="custom-card mb-4 shadow" key={index}
                                     style={{
-                                        background: "transparent",
+                                        background: "#333",
                                         color: "#fff",
                                         padding: "1rem 0",
                                     }}
                                 >
                                     <Card.Body>
                                         <div className="row">
-                                            <div className="icon-container col-sm-12 col-md-4 col-lg-2 mt-3 mb-3">
+                                            <div className="icon-container col-sm-12 col-md-4 col-lg-2 mt-3 mb-3" style={{ background: "#333" }}>
                                                 <img src={ability.displayIcon} style={{
                                                     width: "100%",
                                                 }} />

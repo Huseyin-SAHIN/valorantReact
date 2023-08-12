@@ -4,22 +4,30 @@
   left: 0;
   z-index: 9999;
 }
+#header .container .btn svg {
+  font-size: 24px;
+}
 
-#examineAgent .card .cardTitle {
-  font-size: 1.5rem;
+#home .container .row h1 {
+  font-family: "Courier New", Courier, monospace;
   font-weight: bold;
+  letter-spacing: 1px;
+}
+#home .container .row .card .card-body .card-title {
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
-#agents,
-#weapons,
-#maps {
-  background: #333;
-  color: #fff;
-}
 #agents .container,
 #weapons .container,
 #maps .container {
   min-height: 100vh;
+}
+#agents .container .row,
+#weapons .container .row,
+#maps .container .row {
+  padding: 2rem;
 }
 #agents .container .row a,
 #weapons .container .row a,
@@ -32,6 +40,12 @@
   width: 100%;
   height: 100%;
   min-height: 400px;
+  transition: 0.1s;
+}
+#agents .container .row .card:hover,
+#weapons .container .row .card:hover,
+#maps .container .row .card:hover {
+  transform: scale(1.05);
 }
 #agents .container .row .card .card-img-top,
 #weapons .container .row .card .card-img-top,
@@ -49,11 +63,14 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-#agents #footer,
-#weapons #footer,
-#maps #footer {
-  background: crimson;
-  height: 100px;
+#agents .container .row .card .card-body .card-title,
+#weapons .container .row .card .card-body .card-title,
+#maps .container .row .card .card-body .card-title {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 #maps .container .row .card:hover .card-img-top {
@@ -64,14 +81,6 @@
 }
 #maps .container .row .card .splash {
   display: none;
-}
-#maps #footer {
-  background: crimson;
-  height: 100px;
-}
-
-#examineAgent .card .card-title {
-  font-weight: bold;
 }
 
 .search {
@@ -91,4 +100,10 @@
 .search:focus {
   outline: none;
   background-color: #222;
+}
+
+#examineAgent .cardImg {
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
 }/*# sourceMappingURL=main.css.map */

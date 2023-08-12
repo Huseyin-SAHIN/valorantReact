@@ -9,6 +9,7 @@ function Loading() {
         justifyContent: "center",
         alignItems: "center",
         height: "100vh",
+        color: "#00bfff",
 
       }}
 

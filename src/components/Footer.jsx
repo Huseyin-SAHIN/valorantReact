@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Footer = () => {
   return (
-    <footer className="bg-dark text-light py-3">
+    <footer className="bg-dark text-light py-4">
       <Container>
         <Row>
           <Col md={6}>
@@ -16,11 +16,19 @@ const Footer = () => {
           <Col md={6}>
             <h3>Hızlı Bağlantılar</h3>
             <ul className="list-unstyled">
-              <li><a href="#">Anasayfa</a></li>
-              <li><a href="#">Hakkımızda</a></li>
-              <li><a href="#">Hizmetler</a></li>
-              <li><a href="#">İletişim</a></li>
+              <li><a className="text-white text-decoration-none" href="#">Anasayfa</a></li>
+              <li><a className="text-white text-decoration-none" href="#">Hakkımızda</a></li>
+              <li><a className="text-white text-decoration-none" href="#">Hizmetler</a></li>
+              <li><a className="text-white text-decoration-none" href="#">İletişim</a></li>
             </ul>
+          </Col>
+        </Row>
+        <hr className="my-4" />
+        <Row>
+          <Col md={12} className="text-center">
+            <p className="text-white">
+              Tüm hakları saklıdır &copy; {new Date().getFullYear()}
+            </p>
           </Col>
         </Row>
       </Container>

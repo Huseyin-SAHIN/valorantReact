@@ -1,7 +1,7 @@
 
 import Header from './components/Header'
 import './App.css'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useLocation } from 'react-router-dom'
 import GlobalContext from './Context/GlobalContext'
 import Footer from './components/Footer'
 import NoPage from './components/NoPage'
@@ -12,8 +12,20 @@ import ExamineAgent from './components/ExamineAgent'
 import Weapons from './components/Weapons'
 import ExamineWeapons from './components/ExamineWeapons'
 import Maps from './components/Maps'
+import { useEffect } from 'react'
 
 function App() {
+
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+
+
+
+
 
   return (
     <GlobalContext>
